@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,7 +31,9 @@ var config = {
     };
 
     var game = new Phaser.Game(config);
-    var passarinho
+    var passarinho;
+    var flip = [false, false];
+
     // demos o nome da variável como "passarinho"
 
     function preload() {
@@ -58,11 +60,16 @@ var config = {
 
         passarinho.anims.play("fly", true);
         // acima foi dito que a "key" seria a palavra Fly e aqui ativamos ela.
+
+        this.time.addEvent({ delay: 1000, callback: changeBirdColor, callbackScope: this, loop: true});
+        //tempo de troca para trocar as cores a cada segundo
     }
 
     function update() { 
         if (passarinho.x === 100){
             passarinho.setFlip(false, false);
+            flip[0] = false;
+            flip[1] = false;
             passarinho.ida = true;
             // com o comando "passarinho.setFlip" conseguimos escolher para qual lado o passáro estara virado seja horizontal ou vertical
         }
@@ -74,6 +81,8 @@ var config = {
 
         if (passarinho.x === 700) {
             passarinho.setFlip(true, false);
+            flip[0] = true;
+            flip[1] = false;
             passarinho.ida = false;
         }
 
@@ -97,12 +106,20 @@ var config = {
         }
 
         if (passarinho.y > 100 && passarinho.descer === false) {
-            passarinho.y -= 1
+            passarinho.y -= 1;
             //e por esse comando também podemos escolher a velocidade do passáro pelo eixo Y
         }
 
     }
         
+    function changeBirdColor() {
+
+        var corAleatoria = Phaser.Display.Color.RandomRGB();
+        //codigo para gerar uma cor aleatoria
+
+        passarinho.setTint(corAleatoria.color);
+        //agora aqui coloquei para o sprite alterar a cor com aquele comando
+    }
     
    
 </script>
